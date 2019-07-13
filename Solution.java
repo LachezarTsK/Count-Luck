@@ -14,6 +14,7 @@ public class Solution {
 		int startColumn = 0;
 
 		for (int i = 0; i < numberOfTestCases; i++) {
+
 			numberOfRows = scanner.nextInt();
 			numberOfColumns = scanner.nextInt();
 			grid = new String[numberOfRows][numberOfColumns];
@@ -58,7 +59,7 @@ public class Solution {
 
 	/**
 	 * The method checks whether the specified cell is a decision point, i.e. it is
-	 * possible to make two or more moves from this cell.
+	 * possible to make a move in two or more different directions from this cell.
 	 * 
 	 * @return true, if it is a decision point. Otherwise, false.
 	 */
@@ -99,20 +100,25 @@ public class Solution {
 	 * The method applies backtracking to find the path from the specified start to
 	 * the point where the port key is situated.
 	 * 
-	 * Along the search path, each decision point (i.e. two or more moves are
-	 * possible) is counted.
+	 * Along the search path, each decision point (i.e. it is possible to move in
+	 * two or more different directions) is counted.
 	 * 
 	 * The counting is done by decreasing by one the variable
 	 * "predictedNumberOfWandWaving" at each decision point. If it turns out that
 	 * the already counted decision point is on a path that does not lead to 
-   * the port key, i.e. there is a backtracking, for each decision point on 
-   * the backtracking path the variable "predictedNumberOfWandWaving" is corrected by
+	 * the port key, i.e. there is a backtracking, for each decision point on 
+	 * the backtracking path the variable "predictedNumberOfWandWaving" is corrected by
 	 * increasing it with one.
 	 * 
 	 * Ultimately, only the decision points that are on the path to the port key are
 	 * counted. If after this counting, the variable "predictedNumberOfWandWaving"
-	 * is equal to zero, then the number of actual decision points is equal to 
-   * the number of the prediction.
+	 * is equal to zero, then the number of actual decision points is equal to the
+	 * number of the prediction.
+	 * 
+	 * By the same logic, the searched cells in grid "path" are marked with "1" and
+	 * if turns out that these cells do not lead to the goal, they are corrected
+	 * back to their default value of "0". Ultimately, only the cells from start to
+	 * goal will have a value of "1".
 	 * 
 	 * @return true, if there is a path from start to goal. Otherwise, false.
 	 */
@@ -127,36 +133,39 @@ public class Solution {
 		}
 
 		if (cell_isValidMove(row, column, path)) {
+			/**
+			 * Mark the cell with "1", as a potential path to the goal.
+			 */
 			path[row][column] = 1;
-      
+
 			/**
 			 * Count a decision point.
 			 */
 			if (cell_isDecisionPoint(row, column, path)) {
 				predictedNumberOfWandWaving--;
 			}
-      
+
 			/**
 			 * Move up.
 			 */
 			if (searchPath_to_portKey(row - 1, column, path)) {
 				return true;
 			}
-      
+
 			/**
 			 * Move down.
 			 */
 			if (searchPath_to_portKey(row + 1, column, path)) {
 				return true;
 			}
-      
+
 			/**
 			 * Move left.
 			 */
 			if (searchPath_to_portKey(row, column - 1, path)) {
 				return true;
 			}
-      
+
 			/**
 			 * Move right.
 			 */
@@ -172,6 +181,10 @@ public class Solution {
 				predictedNumberOfWandWaving++;
 			}
 
+			/**
+			 * Correct a cell already marked with "1", by replacing this value with "0", if
+			 * the cell is on a path that does not lead to the goal.
+			 */
 			path[row][column] = 0;
 			return false;
 		}
@@ -183,13 +196,17 @@ public class Solution {
 	 * specified by the conditions of the challenge.
 	 */
 	private static void getResults(int startRow, int startColumn) {
+		/**
+		 * Each cell on the path from start to goal will be marked with the value of
+		 * "1".
+		 */
 		int[][] path = new int[numberOfRows][numberOfColumns];
 
 		/**
 		 * Variable "path_isPresent" is implemented for completeness and readability.
 		 * 
-		 * The conditions of the challenge guarantee that there is one path from start
-		 * to goal.
+		 * The conditions of the challenge guarantee that there is exactly one path 
+		 * from start to goal.
 		 */
 		boolean path_isPresent = searchPath_to_portKey(startRow, startColumn, path);
 
