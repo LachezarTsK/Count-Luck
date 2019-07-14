@@ -112,8 +112,8 @@ public class Solution {
 	 * 
 	 * Ultimately, only the decision points that are on the path to the port key are
 	 * counted. If after this counting, the variable "predictedNumberOfWandWaving"
-	 * is equal to zero, then the number of actual decision points is equal to the
-	 * number of the prediction.
+	 * is equal to zero, then the number of actual decision points is equal to 
+	 * the number of the prediction.
 	 * 
 	 * By the same logic, the searched cells in grid "path" are marked with "1" and
 	 * if turns out that these cells do not lead to the goal, they are corrected
@@ -197,8 +197,8 @@ public class Solution {
 	 */
 	private static void getResults(int startRow, int startColumn) {
 		/**
-		 * Each cell on the path from start to goal will be marked with the value of
-		 * "1".
+		 * Each cell on the path from start to goal will be marked 
+		 * with the value of "1".
 		 */
 		int[][] path = new int[numberOfRows][numberOfColumns];
 
