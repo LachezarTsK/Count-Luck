@@ -174,8 +174,8 @@ public class Solution {
 			}
 
 			/**
-			 * Correct the count of decision points, if the specified point is on a path not
-			 * leading to the port key.
+			 * Correct the count of decision points, if the specified point is on a path 
+			 * that does not lead to the port key.
 			 */
 			if (cell_isDecisionPoint(row, column, path)) {
 				predictedNumberOfWandWaving++;
